@@ -2,7 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import './profile.scss';
 
-const formatDate = (date) => moment(date).format('DD MMM YYYY');
+const formatDate = (date) => moment(date).format('DD MMM YY');
 
 const Profile = (props) => {
   const fullName = `${props.userData.firstName} ${props.userData.lastName}`;
