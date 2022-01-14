@@ -2,7 +2,7 @@ import React from 'react';
 import Comment from './Comment';
 
 const userInfo = {
-  author: 'Tom',
+  name: 'Tom',
   avatar: 'https://avatars1.githubusercontent.com',
 };
 
