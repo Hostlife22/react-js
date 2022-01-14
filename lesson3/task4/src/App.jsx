@@ -1,11 +1,14 @@
 import React from 'react';
-import { birthDate } from './birthDate';
 import Greeting from './Greeting';
 
 const App = () => {
-  const age = birthDate(new Date('2022-01-01T11:11:11.819Z'));
-
-  return <Greeting firstName="John" lastName="Doe" birthDate={age} />;
+  return (
+    <Greeting
+      firstName="John"
+      lastName="Doe"
+      birthDate={new Date('2001-01-01T11:11:11.819Z')}
+    />
+  );
 };
 
 export default App;
