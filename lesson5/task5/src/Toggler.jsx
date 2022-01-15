@@ -9,7 +9,7 @@ class Toggler extends Component {
     };
   }
 
-  handleChange = () => {
+  handlerChange = () => {
     this.setState({
       toggle: !this.state.toggle,
     });
