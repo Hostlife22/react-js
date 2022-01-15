@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './clock.scss';
 
 const getTimeWithOffset = (offset) => {
+  console.log(offset);
   const currentTime = new Date();
   const utcOffset = currentTime.getTimezoneOffset() / 60;
   return new Date(
@@ -16,11 +17,12 @@ class Clock extends Component {
     this.state = {
       location: props.location,
       offset: props.offset,
+      time: '',
     };
 
     setInterval(() => {
       this.setState({
-        offset: getTimeWithOffset(props.offset).toLocaleString('en-US', {
+        time: getTimeWithOffset(props.offset).toLocaleString('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           second: 'numeric',
@@ -33,7 +35,7 @@ class Clock extends Component {
     return (
       <div className="clock">
         <div className="clock__location">{this.state.location}</div>
-        <div className="clock__time">{this.state.offset}</div>
+        <div className="clock__time">{this.state.time}</div>
       </div>
     );
   }
