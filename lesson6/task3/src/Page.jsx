@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Message from './Message';
 
-const text1 = 'Hello world!';
+const text1 = 'Hello, world!';
 const text2 = 'Another exciting text.';
 
 class Page extends Component {
