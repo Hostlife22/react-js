@@ -22,7 +22,7 @@ class Clock extends Component {
 
     setInterval(() => {
       this.setState({
-        time: getTimeWithOffset(props.offset).toLocaleString('en-US', {
+        time: getTimeWithOffset(this.props.offset).toLocaleString('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           second: 'numeric',
