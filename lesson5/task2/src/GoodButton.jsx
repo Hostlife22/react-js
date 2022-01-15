@@ -7,9 +7,9 @@ class GoodButton extends Component {
 
   render() {
     return (
-      <div className="fancy-button" onClick={this.handleClick}>
+      <button className="fancy-button" onClick={this.handleClick}>
         Click me!
-      </div>
+      </button>
     );
   }
 }
