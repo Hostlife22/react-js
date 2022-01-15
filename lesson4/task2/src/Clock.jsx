@@ -1,15 +1,6 @@
 import React, { Component } from 'react';
 import './clock.scss';
 
-const getTimeWithOffset = (offset) => {
-  const currentTime = new Date();
-  const utcOffset = currentTime.getTimezoneOffset() / 60;
-
-  return new Date(
-    currentTime.setHours(currentTime.getHours() + offset + utcOffset)
-  );
-};
-
 class Clock extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +11,7 @@ class Clock extends Component {
 
     setInterval(() => {
       this.setState({
-        time: getTimeWithOffset(props.offset).toLocaleString('en-US', {
+        time: this.getTimeWithOffset(props.offset).toLocaleString('en-US', {
           hour: 'numeric',
           minute: 'numeric',
           second: 'numeric',
@@ -28,6 +19,15 @@ class Clock extends Component {
         }),
       });
     }, 1000);
+  }
+
+  getTimeWithOffset(offset) {
+    const currentTime = new Date();
+    const utcOffset = currentTime.getTimezoneOffset() / 60;
+
+    return new Date(
+      currentTime.setHours(currentTime.getHours() + offset + utcOffset)
+    );
   }
 
   render() {
