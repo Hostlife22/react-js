@@ -9,17 +9,16 @@ class Toggler extends Component {
     };
   }
 
-  onChangeToggle = (e) => {
-    const textContentBtn = e.target.textContent === 'Off' ? 'On' : 'Off';
-
-    this.setState({
-      toggle: textContentBtn,
-    });
-  };
-
   render() {
     return (
-      <button className="toggler" onClick={this.onChangeToggle}>
+      <button
+        className="toggler"
+        onClick={(e) => {
+          this.setState({
+            toggle: e.target.textContent === 'Off' ? 'On' : 'Off',
+          });
+        }}
+      >
         {this.state.toggle}
       </button>
     );
