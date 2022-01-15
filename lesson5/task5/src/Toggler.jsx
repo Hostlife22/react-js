@@ -1,25 +1,15 @@
 import React, { Component } from 'react';
 
 class Toggler extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      toggle: 'Off',
-    };
+  toggleBtn(e) {
+    const content = e.target.textContent === 'Off' ? 'On' : 'Off';
+    e.target.textContent = content;
   }
 
   render() {
     return (
-      <button
-        className="toggler"
-        onClick={(e) => {
-          this.setState({
-            toggle: e.target.textContent === 'Off' ? 'On' : 'Off',
-          });
-        }}
-      >
-        {this.state.toggle}
+      <button className="toggler" onClick={this.toggleBtn}>
+        Off
       </button>
     );
   }
