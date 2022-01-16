@@ -14,6 +14,7 @@ module.exports = (env, argv) => {
       rules: [
         {
           test: /\.jsx?$/,
+          exclude: /node_modules/,
           use: ['babel-loader'],
         },
         {
@@ -40,9 +41,16 @@ module.exports = (env, argv) => {
       extensions: ['.js', '.jsx'],
     },
     devServer: {
+      historyApiFallback: true,
+      open: true,
       hot: true,
+      port: 8080,
     },
   };
+
+  if (isProduction) {
+    config.plugins.push(new webpack.HotModuleReplacementPlugin());
+  }
 
   if (isProduction) {
     config.plugins.push(
