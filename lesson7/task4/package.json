@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack serve --mode=development --devtool eval-source-map  --open",
+    "start": "webpack serve --mode=development --devtool eval-source-map ",
     "build": "webpack --mode=production"
   },
   "keywords": [],
