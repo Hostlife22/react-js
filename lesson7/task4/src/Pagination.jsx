@@ -5,7 +5,6 @@ const Pagination = (props) => {
   const amountRemainingUsers = totalItems - itemsPerPage * currentPage;
   const isPrevPageAvailable = currentPage === 1;
   const isNextPageAvailable = amountRemainingUsers <= 0;
-  console.log(amountRemainingUsers);
 
   return (
     <div className="pagination">
