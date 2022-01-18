@@ -23,8 +23,8 @@ export class ConnectionStatus extends Component {
   };
 
   render() {
-    const isOnline = this.state.condition === 'online';
-    const status = isOnline ? 'status' : 'status status_offline';
+    const status =
+      this.state.condition === 'online' ? 'status' : 'status status_offline';
 
     return <div className={status}>{this.state.condition}</div>;
   }
