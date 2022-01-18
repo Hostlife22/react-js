@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
-import Transaction from './Transaction';
+import React from 'react'
+import Transaction from './Transaction'
 
-class TransactionsList extends Component {
+class TransactionsList extends React.Component {
   render() {
+    const { transactions } = this.props
     return (
       <ul className="transactions">
-        {this.props.transactions.map((transaction) => (
+        {transactions.map((transaction) => (
           <Transaction key={transaction.id} {...transaction} />
         ))}
       </ul>
-    );
+    )
   }
 }
 
-export default TransactionsList;
+export default TransactionsList

@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.scss';
-import TransactionsList from './TransactionsList';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.scss'
+import TransactionsList from './TransactionsList'
 
-const rootElement = document.querySelector('#root');
+const rootElement = document.querySelector('#root')
 
 const transactions = [
   {
@@ -30,6 +30,6 @@ const transactions = [
     rate: 1.1,
     time: '2019-01-10T17:01:35.447Z',
   },
-];
+]
 
-ReactDOM.render(<TransactionsList transactions={transactions} />, rootElement);
+ReactDOM.render(<TransactionsList transactions={transactions} />, rootElement)
