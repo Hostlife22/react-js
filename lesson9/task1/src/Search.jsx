@@ -13,7 +13,7 @@ export class Search extends Component {
 
   search = (event) => {
     event.preventDefault();
-    alert(this.state.value);
+    alert(`Search text: ${this.state.value}`);
   };
 
   render() {
