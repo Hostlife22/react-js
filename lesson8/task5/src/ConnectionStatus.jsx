@@ -16,17 +16,20 @@ export class ConnectionStatus extends Component {
   }
 
   setStatus = (e) => {
-    const condition = navigator.onLine ? 'online' : 'offline';
     this.setState({
-      condition,
+      condition: e.type,
     });
   };
 
   render() {
-    const status =
-      this.state.condition === 'online' ? 'status' : 'status status_offline';
+    const condition = this.state.condition;
+    let status = 'status';
 
-    return <div className={status}>{this.state.condition}</div>;
+    if (condition === 'offline') {
+      status += ' status_offline';
+    }
+
+    return <div className={status}>{condition}</div>;
   }
 }
 
