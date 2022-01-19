@@ -4,7 +4,7 @@ const BoilingVerdict = ({ celsius }) => {
   if (celsius >= 100) {
     return <p>The water would boil.</p>;
   }
-  return <div>The water would not boil. </div>;
+  return <p>The water would not boil. </p>;
 };
 
 export default BoilingVerdict;
