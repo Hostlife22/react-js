@@ -1,6 +1,6 @@
 import React from 'react';
 import BoilingVerdict from './BoilingVerdict';
-import { toCelsius, toFahrenheit, tryConvert } from './common';
+import { toCelsius, toFahrenheit, tryConvert } from './convert';
 import TemperatureInput from './TemperatureInput';
 
 class Calculator extends React.Component {
@@ -37,7 +37,7 @@ class Calculator extends React.Component {
           temperature={fahrenheit}
           onTemperatureChange={this.handleFahrenheitChange}
         />
-        <BoilingVerdict celsius={parseFloat(celsius)} />
+        {celsius && <BoilingVerdict celsius={parseFloat(celsius)} />}
       </div>
     );
   }
