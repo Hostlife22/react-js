@@ -18,14 +18,13 @@ export class Page extends Component {
   };
 
   render() {
-    const userData = this.state.userData;
-    const { firstName, lastName } = userData;
+    const { userData } = this.state;
 
     return (
       <div className="page">
-        <h1 className="title">{`Hello, ${firstName} ${lastName}`}</h1>
+        <h1 className="title">{`Hello, ${userData.firstName} ${userData.lastName}`}</h1>
         <main className="content">
-          <ShoppingCart userName={firstName} />
+          <ShoppingCart userName={userData} />
           <Profile userData={userData} handleChange={this.handleChange} />
         </main>
       </div>
