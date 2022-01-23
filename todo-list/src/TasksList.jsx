@@ -29,15 +29,22 @@ class TasksList extends Component {
     const newTask = {
       text,
       done: false,
+      createdDate: new Date().toISOString(),
     };
 
     createTask(newTask).then(() => this.fetchTasks());
   };
 
   handleTaskStatusChange = (id) => {
-    const { done, text } = this.state.tasks.find((task) => task.id === id);
+    const { done, text, createDate } = this.state.tasks.find(
+      (task) => task.id === id
+    );
+    const finishDate = !done ? new Date().toISOString() : null;
+
     const updatedTasks = {
       text,
+      createDate,
+      finishDate,
       done: !done,
     };
 
@@ -48,8 +55,18 @@ class TasksList extends Component {
     deleteTask(id).then(() => this.fetchTasks());
   };
 
+  compareTasks = (a, b) => {
+    if (a.done - b.done !== 0) {
+      return a.done - b.done;
+    }
+    if (a.done) {
+      return new Date(b.finishDate) - new Date(a.finishDate);
+    }
+    return new Date(b.createdDate) - new Date(a.createdDate);
+  };
+
   render() {
-    const sortedList = this.state.tasks.slice().sort((a, b) => a.done - b.done);
+    const sortedList = this.state.tasks.slice().sort(this.compareTasks);
 
     return (
       <div className="todo-list">
