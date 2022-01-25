@@ -7,6 +7,7 @@ module.exports = (env, argv) => {
   const config = {
     entry: './src/index.jsx',
     output: {
+      publicPath: '/',
       filename: 'bundle.js',
       clean: true,
     },
@@ -47,10 +48,6 @@ module.exports = (env, argv) => {
       port: 8080,
     },
   };
-
-  if (isProduction) {
-    config.plugins.push(new webpack.HotModuleReplacementPlugin());
-  }
 
   if (isProduction) {
     config.plugins.push(
