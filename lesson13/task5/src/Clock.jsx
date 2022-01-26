@@ -1,12 +1,11 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 const Clock = ({ offset, location }) => {
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(new Date());
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const currrentTime = moment().add(offset, 'hours').format('LTS');
-      setDate(currrentTime);
+      setDate(new Date());
     }, 1000);
 
     return () => {
@@ -14,14 +13,12 @@ const Clock = ({ offset, location }) => {
     };
   }, []);
 
-  if (!date) {
-    return null;
-  }
+  const currrentTime = moment(date).add(offset, 'hours').format('LTS');
 
   return (
     <div className="clock">
       <div className="clock__location">{location}</div>
-      <div className="clock__time">{date}</div>
+      <div className="clock__time">{currrentTime}</div>
     </div>
   );
 };
