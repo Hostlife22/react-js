@@ -19,11 +19,10 @@ const ConnectionStatus = () => {
     };
   }, []);
 
-  return (
-    <div className={classNames('status', { status_offline: !status })}>
-      {status ? 'Online' : 'Offline'}
-    </div>
-  );
+  const statusName = classNames('status', { status_offline: !status });
+  const condition = status ? 'online' : 'offline';
+
+  return <div className={statusName}>{condition}</div>;
 };
 
 export default ConnectionStatus;
