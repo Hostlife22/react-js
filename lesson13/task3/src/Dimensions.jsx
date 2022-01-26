@@ -19,7 +19,7 @@ const Dimensions = () => {
   }, []);
   const { width, hieght } = dimensions;
 
-  return <div className="number">{`${width}px - ${hieght}px`}</div>;
+  return <div className="dimensions">{`${width}px - ${hieght}px`}</div>;
 };
 
 export default Dimensions;
