@@ -1,18 +1,18 @@
 import { ADD_USER, DELETE_USER } from './users.actions';
 
 const initialState = {
-  userList: [],
+  usersList: [],
 };
 
 const usersReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_USER:
-      return { ...state, userList: state.userList.concat(action.payload) };
+      return { ...state, usersList: state.usersList.concat(action.payload) };
 
     case DELETE_USER:
       return {
         ...state,
-        userList: state.userList.filter((user) => user.id !== action.payload),
+        usersList: state.usersList.filter((user) => user.id !== action.payload),
       };
 
     default:
