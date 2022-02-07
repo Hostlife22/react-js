@@ -4,7 +4,7 @@ const initialState = {
   userList: [],
 };
 
-const userReducer = (state = initialState, action) => {
+const usersReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_USER:
       return { ...state, userList: state.userList.concat(action.payload) };
@@ -20,4 +20,4 @@ const userReducer = (state = initialState, action) => {
   }
 };
 
-export default userReducer;
+export default usersReducer;
