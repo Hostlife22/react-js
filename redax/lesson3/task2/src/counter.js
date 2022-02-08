@@ -28,9 +28,7 @@ const counerReducer = (state = 0, action) => {
   }
 };
 
-const store = createStore(
+export const store = createStore(
   counerReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
-
-export default store;

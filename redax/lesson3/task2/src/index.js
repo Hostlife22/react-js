@@ -1,4 +1,4 @@
-import store, { decrement, increment } from './counter';
+import { decrement, increment, store } from './counter';
 
 store.subscribe(() => {
   console.log(store.getState());
