@@ -10,7 +10,7 @@ const User = ({ name, age }) => {
   );
 };
 
-User.PropTypes = {
+User.propTypes = {
   name: PropTypes.string.isRequired,
   age: PropTypes.number.isRequired,
 };
