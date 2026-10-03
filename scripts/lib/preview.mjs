@@ -1,5 +1,6 @@
 import { spawn } from 'node:child_process';
 import { mkdir } from 'node:fs/promises';
+import { stripVTControlCharacters } from 'node:util';
 import { chromium } from 'playwright';
 import { installedChrome } from './browser.mjs';
 
@@ -9,7 +10,7 @@ async function waitForServer(server, url, getOutput, getFailure) {
     if (getFailure()) throw getFailure();
     if (server.exitCode !== null) throw new Error(`Preview exited: ${getOutput()}`);
     // Only probe after our Vite process announces its URL; another process may own the port.
-    if (getOutput().includes(url)) {
+    if (stripVTControlCharacters(getOutput()).includes(url)) {
       try {
         if ((await fetch(url, { signal: AbortSignal.timeout(500) })).ok) return;
       } catch {
