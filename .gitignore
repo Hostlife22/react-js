@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.remotion/
+out/
+public/art-history.mp4
+public/soundtrack.wav
+.DS_Store
+__pycache__/
+*.py[cod]
