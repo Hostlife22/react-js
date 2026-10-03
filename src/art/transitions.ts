@@ -1,5 +1,6 @@
 import timeline from '../timeline.json';
-import { CHAPTERS, clamp, transitionDuration, type Chapter } from '../timeline';
+import { CHAPTERS, transitionDuration, type Chapter } from '../timeline';
+import { clamp } from '../animation/math';
 import { ART, type Ctx } from './primitives';
 
 type Pattern = 'wash' | 'sweep' | 'scroll' | 'wave' | 'bloom' | 'diagonal' | 'dissolve';

@@ -11,11 +11,11 @@ A 15-second journey through 16 art eras, drawn in code with React, Canvas and Re
 
 Procedural textures, distinct historical costumes and lettering, independent character and environment animation, soft transitions, and an original synthesized soundtrack. The final film is **1920 × 1080 at 60 fps**. The cat jumps onto the table and knocks the cup to the floor.
 
-[Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Accessibility](ACCESSIBILITY.md) · [Third-party licenses](docs/THIRD_PARTY_LICENSES.md)
+[Contributing](CONTRIBUTING.md) · [Architecture](docs/ARCHITECTURE.md) · [Security](SECURITY.md) · [Accessibility](ACCESSIBILITY.md) · [Third-party licenses](docs/THIRD_PARTY_LICENSES.md)
 
 ## Run locally
 
-Use Node.js 22.19 or newer (Node 22 is used in CI), npm, Python 3.12, NumPy, Pillow, and FFmpeg on your PATH. On macOS, the exporter uses installed Google Chrome. On other platforms, Remotion downloads its rendering browser.
+Use Node.js 22.19 or newer (Node 22 is used in CI), npm, Python 3.12, NumPy, Pillow, and FFmpeg on your PATH. Remotion downloads its matching Chrome Headless Shell on the first export and reuses it afterwards, on all platforms.
 
 ```sh
 npm ci
@@ -78,7 +78,7 @@ On macOS, browser checks use installed Chrome. Elsewhere, install Chromium once 
 
 The browser job also builds and checks the production bundle at `/cat-through-time/`, including fonts, audio, metadata assets, keyboard focus, and download availability before or after export.
 
-The browser verifier covers 16 distinct styles, deterministic frame order, 90 transition frames, monotonic soft masks, animated dates, independent movement in ten scenery regions, local fonts, English interface text, arm geometry, continuous cat motion, replay, keyboard navigation, responsive layouts, reduced motion, metadata, and browser errors.
+The browser verifier covers 16 distinct styles, deterministic frame order, 90 transition frames, monotonic soft masks, animated dates, independent movement in ten scenery regions, local fonts, English interface text, arm geometry, continuous cat motion, replay, keyboard navigation, responsive layouts, reduced motion, metadata, and browser errors. Download checks also cover slow requests, HTML fallbacks, network failures, and recovery.
 
 For a shorter rendering probe of the Renaissance, Ukiyo-e, Impressionism, and Post-Impressionism transitions:
 
@@ -90,20 +90,24 @@ The probe is saved to `out/checks/transitions/probe.mp4`. Run `python3 scripts/c
 
 ## Change the animation
 
-| File                                                            | Purpose                                                        |
-| --------------------------------------------------------------- | -------------------------------------------------------------- |
-| `src/timeline.json`                                             | Shared era timing, captions, transitions, and cat/cup events   |
-| `src/art/render.ts`                                             | Frame composition, media treatment, reflections, and labels    |
-| `src/art/transitions.ts`                                        | Soft procedural masks, easing, and interpolated dates          |
-| `src/art/materials.ts`                                          | Paper, stone, cloth, crackle, ornaments, and painted textures  |
-| `src/art/figures.ts`, `portraits.ts`, `styledCats.ts`           | Historical poses, costumes, faces, and cats                    |
-| `src/art/classicRoom.ts`, `impastoRoom.ts`, `decoratedRooms.ts` | Renaissance, painted, Gothic, Ukiyo-e, and Art Nouveau rooms   |
-| `src/art/painted.ts`, `retro3d.ts`, `modern.ts`                 | Painted figures, early CGI lighting, and the final action      |
-| `src/art/environment.ts`, `scenery.ts`                          | Independent room details, light, waves, plants, and atmosphere |
-| `src/art/lettering.ts`, `src/typography.ts`                     | Era-specific typefaces and local font loading                  |
-| `scripts/soundtrack.py`                                         | Music and synchronized sound effects                           |
+| File                                                            | Purpose                                                                 |
+| --------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `src/timeline.json`                                             | Shared era timing, captions, transitions, and cat/cup events            |
+| `src/features/film/`, `src/components/`                         | Film controls, playback/download hooks, and page composition            |
+| `src/animation/`                                                | Pure timing, interpolation, cat/cup motion, and arm geometry            |
+| `src/art/render.ts`, `canvas.ts`                                | Frame composition, isolated buffers, and pixel output                   |
+| `src/art/scene.ts`, `actors.ts`, `media.ts`                     | Room/actor selection, reflections, placement, and media effects         |
+| `src/art/transitions.ts`                                        | Soft procedural masks, easing, and interpolated dates                   |
+| `src/art/materials.ts`                                          | Paper, stone, cloth, crackle, ornaments, and painted textures           |
+| `src/art/historical/`, `portraits.ts`, `styledCats.ts`          | Historical costumes, faces, and cats                                    |
+| `src/art/classicRoom.ts`, `impastoRoom.ts`, `decoratedRooms.ts` | Renaissance, painted, Gothic, Ukiyo-e, and Art Nouveau rooms            |
+| `src/art/painted.ts`, `retro3d.ts`, `modern/`                   | Painted figures, early CGI lighting, and independent final-scene layers |
+| `src/art/environment.ts`, `scenery.ts`                          | Independent room details, light, waves, plants, and atmosphere          |
+| `src/art/lettering.ts`, `src/typography.ts`                     | Era-specific typefaces and local font loading                           |
+| `scripts/soundtrack.py`                                         | Music and synchronized sound effects                                    |
+| `scripts/lib/`, `scripts/checks/`                               | Export sessions, browser lifecycle, and focused verification            |
 
-Each frame is determined by its frame number. Textures use seeded randomness, static details are cached, and moving shapes are redrawn for every frame. Both scenes keep moving during a transition. The exporter disables GPU rasterization in installed macOS Chrome to avoid duplicated canvas tiles in screenshots.
+Each frame is determined by its frame number. Textures use seeded randomness, static details are cached, and moving shapes are redrawn for every frame. Both scenes keep moving during a transition. The exporter uses Remotion's matching browser and lossless PNG frame capture, then verifies the encoded MP4 before making it available for download.
 
 Keep image-independent geometry, one shared timeline, and deterministic rendering when adding a style. Re-export after changing the timeline so picture and sound remain synchronized.
 

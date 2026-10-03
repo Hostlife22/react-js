@@ -1,4 +1,4 @@
-import { clamp } from '../timeline';
+import { clamp } from '../animation/math';
 import { PALETTES } from './palettes';
 import { ellipse, gradient, line, path, random, type Ctx } from './primitives';
 

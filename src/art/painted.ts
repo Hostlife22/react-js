@@ -1,23 +1,7 @@
 import { pigment, textureShape } from './materials';
 import { ellipse, gradient, line, path, random, type Ctx } from './primitives';
-import { clamp } from '../timeline';
-
-type Point = { x: number; y: number };
-type Cup = Point & { sip: number };
-export function paintedArmPose(cup: Cup) {
-  const shoulder = { x: 704, y: 276 };
-  const wrist = { x: (cup.x - 681) / 1.04 + 681 + 15, y: (cup.y - 333) / 1.1 + 356 + 7 };
-  const dx = wrist.x - shoulder.x,
-    dy = wrist.y - shoulder.y,
-    d = clamp(Math.hypot(dx, dy), 0.01, 201.99);
-  const a = (77 * 77 - 125 * 125 + d * d) / (2 * d),
-    h = Math.sqrt(Math.max(0, 77 * 77 - a * a));
-  const elbow = {
-    x: shoulder.x + (dx / d) * a + (dy / d) * h,
-    y: shoulder.y + (dy / d) * a - (dx / d) * h,
-  };
-  return { shoulder, elbow, wrist };
-}
+import { paintedArmPose, type Point } from '../animation/rig';
+import type { CupPose } from '../animation/cup';
 
 function oil(
   c: Ctx,
@@ -92,7 +76,7 @@ function paintedHand(c: Ctx, x: number, y: number, angle: number) {
   c.restore();
 }
 
-export function drawPaintedFigure(c: Ctx, time: number, cup: Cup) {
+export function drawPaintedFigure(c: Ctx, time: number, cup: CupPose) {
   const breath = Math.sin(time * 2) * 0.65;
   c.save();
   c.translate(0, breath);
