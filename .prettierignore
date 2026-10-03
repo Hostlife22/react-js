@@ -1,0 +1,8 @@
+node_modules/
+dist/
+out/
+.remotion/
+package-lock.json
+public/fonts/
+public/art-history.mp4
+public/soundtrack.wav

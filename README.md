@@ -1,81 +1,114 @@
-# История искусства с котом
+# Cat Through Time
 
-15-секундная анимация: одна сцена проходит через 16 художественных эпох, после чего кот прыгает на стол и сбрасывает чашку. Готовый фильм — **1920 × 1080, 60 fps**, с синтезированной музыкой и синхронными эффектами. Все сцены и персонажи рисуются кодом в Canvas: контуры, градиенты, орнаменты, шерсть, мазки и фактуры материалов. Рендер не загружает готовые иллюстрации.
+[![CI](https://github.com/Hostlife22/cat-through-time/actions/workflows/ci.yml/badge.svg)](https://github.com/Hostlife22/cat-through-time/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## Предпросмотр и экспорт
+A 15-second journey through 16 art eras, drawn in code with React, Canvas and Remotion. One person, one cup and a curious cat.
 
-Нужны Node.js 22.19+, Python 3 с NumPy и Pillow, FFmpeg. На macOS рендер использует установленный Google Chrome; на остальных платформах Remotion загружает свой браузер.
+[Open the animation](https://hostlife22.github.io/cat-through-time/)
+
+![Cat Through Time: a person and a cat in the contemporary illustration scene, with the project's title and sixteen-era journey.](public/social-preview.png)
+
+Procedural textures, distinct historical costumes and lettering, independent character and environment animation, soft transitions, and an original synthesized soundtrack. The final film is **1920 × 1080 at 60 fps**. The cat jumps onto the table and knocks the cup to the floor.
+
+[Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Accessibility](ACCESSIBILITY.md) · [Third-party licenses](docs/THIRD_PARTY_LICENSES.md)
+
+## Run locally
+
+Use Node.js 22.19 or newer (Node 22 is used in CI), npm, Python 3.12, NumPy, Pillow, and FFmpeg on your PATH. On macOS, the exporter uses installed Google Chrome. On other platforms, Remotion downloads its rendering browser.
 
 ```sh
-npm install
+npm ci
+python3 -m pip install -r requirements.txt
 npm run audio
 npm run dev
 ```
 
-Откройте адрес, напечатанный Vite. Плеер поддерживает звук, перемотку и выбор любой эпохи. Кнопка скачивания становится доступна после первого экспорта:
+Open the address printed by Vite. Playback starts paused. Use the player controls, choose an era, or select **Play again**. The **Download MP4** button becomes available after export.
+
+To inspect the production bundle:
+
+```sh
+npm run build
+npm run preview
+```
+
+The production base is `/cat-through-time/`, matching the repository's GitHub Pages URL. Open the preview address followed by `/cat-through-time/`. For another hosting path, update `vite.config.ts` and the canonical, Open Graph, Twitter, and structured-data URLs in `index.html`.
+
+## Export
 
 ```sh
 npm run render
 ```
 
-Экспорт создаёт:
+The exporter synthesizes the soundtrack, renders the film, and checks every encoded frame for large single-frame flashes. It creates:
 
-- `out/art-history.mp4` — готовый фильм;
-- `out/storyboard.jpg` — 16 подписанных ключевых кадров;
-- `out/poster.jpg` — постер;
-- `out/stills/` — ключевые кадры эпох и финального действия;
-- `public/art-history.mp4` — копию для скачивания из плеера.
+| Path                     | Output                             |
+| ------------------------ | ---------------------------------- |
+| `out/art-history.mp4`    | Finished H.264 film with AAC audio |
+| `public/art-history.mp4` | Download copy served by the app    |
+| `public/soundtrack.wav`  | Original synthesized soundtrack    |
+| `out/storyboard.jpg`     | Sixteen labeled key frames         |
+| `out/poster.jpg`         | Poster                             |
+| `out/stills/`            | Era and action frames              |
 
-`npm run render:stills` обновляет только кадры, постер и раскадровку. `npm run build` собирает интерфейс в `dist/`; запускайте сборку после экспорта, чтобы в неё попал готовый MP4.
+Run `npm run build` after export to include the finished MP4 in the production bundle. Exports, screenshots, audio, and build output are generated locally and excluded from Git. The repository contains source code, configuration, scripts, and local font files with their licenses.
 
-В репозитории хранятся исходники, конфигурация, скрипты и локальные шрифты с лицензиями. Экспорты, кадры, снимки проверок, синтезированный звук и сборка создаются локально и исключены из Git. Для нового клона сначала выполните `npm run audio`; готовый MP4 можно получить командой `npm run render`.
+## Commands and CI
 
-## Что менять
+| Command                            | Purpose                                                         |
+| ---------------------------------- | --------------------------------------------------------------- |
+| `npm run dev`                      | Development server                                              |
+| `npm run build` / `preview`        | Typechecked production build / local preview                    |
+| `npm run format` / `format:check`  | Apply / check Prettier formatting                               |
+| `npm run lint` / `lint:fix`        | ESLint, TypeScript and React Hooks checks / automatic fixes     |
+| `npm run typecheck`                | Strict TypeScript checking                                      |
+| `npm run check`                    | Formatting, lint, types, and production build                   |
+| `npm run audio`                    | Synthesize the original soundtrack                              |
+| `npm run render` / `render:stills` | Export film and stills / refresh stills only                    |
+| `npm run check:preview`            | Browser checks without an exported MP4                          |
+| `npm run check:production`         | Browser checks of the production bundle at `/cat-through-time/` |
+| `npm run check:video`              | Browser checks plus finished-film verification                  |
 
-| Файл | Назначение |
-| --- | --- |
-| `src/timeline.json` | Продолжительность, эпохи, подписи, время прыжка, удара лапой и падения чашки |
-| `src/art/materials.ts` | Процедурные бумага, камень, ткань, кракелюр, орнаменты и живописные мазки |
-| `src/art/figures.ts` | Исторические костюмы, лицо, волосы, пальцы, шерсть кота и двухзвенная система движения руки |
-| `src/art/portraits.ts`, `src/art/styledCats.ts` | Отдельные формы лиц и котов для эпох, калико, средневековый кот с мышью, геометрические фигуры и живописная шерсть |
-| `src/art/decoratedRooms.ts` | Готическая архитектура и рукопись, японская волна и свиток, витражи, цветочные орнаменты и кованая мебель модерна |
-| `src/art/classicRoom.ts`, `src/art/impastoRoom.ts` | Пейзаж Возрождения, летающая машина, интерьер и направленные мазки импрессионизма и Ван Гога |
-| `src/art/painted.ts` | Ренессанс: мягкие светотени, складки, жемчуг, пряди волос, полупрозрачные слои цвета и тонкая шерсть |
-| `src/art/retro3d.ts` | Ранняя CGI: вычисление нормалей сфер, освещения и бликов, объёмные суставы и цилиндры |
-| `src/art/scenery.ts` | Детали интерьера, пейзаж, витражи, иероглифы, растительные орнаменты и атмосферное движение |
-| `src/art/modern.ts` | Финальный интерьер, лицо, кисти, движения рук, непрерывная смена позы кота, прыжок и падение чашки |
-| `src/art/environment.ts` | Самостоятельная анимация наскальных рисунков, солнечных лучей, вёсел, комиксных портретов и CGI-бликов |
-| `src/art/lettering.ts`, `src/typography.ts` | Шрифты и размеры надписей каждой эпохи, загрузка локальных шрифтов до начала рендера |
-| `src/art/transitions.ts` | Мягкие процедурные маски, плавное ускорение и замедление, адаптивная длительность перехода, анимированные годы |
-| `src/art/render.ts` | Сборка кадра, мозаичные элементы, пикселизация, отражения, переходы и подписи |
-| `src/art/backgrounds.ts`, `src/art/characters.ts` | Основы интерьеров, геометрические персонажи кубизма и Баухауса, исторические чашки |
-| `scripts/soundtrack.py` | Мелодия, тембры и звуковые эффекты |
+CI runs on pushes to `main`, pull requests, and manual dispatch. The first job checks formatting, lint, types, and the build. The browser job installs Python dependencies and Chromium, synthesizes audio, and tests the animation directly from source. A full video render is not required in CI. Browser screenshots are retained as workflow artifacts for seven days.
 
-Кадр определяется его номером. Прорисовка не зависит от предыдущего кадра, системного времени или случайных чисел без фиксированного начального состояния. Статические интерьеры и вычисленные кодом текстуры кешируются в служебных Canvas; персонажи и движущиеся элементы рисуются заново на каждом кадре.
+GitHub Pages deploys only after a successful CI run triggered by a push to `main`. The deployment checks out the exact tested commit, renders and verifies the downloadable film, builds the site including local fonts and audio, and publishes `dist/`. Pull requests do not publish. Rendered assets stay in the deployment artifact and are excluded from Git.
 
-Жест с чашкой проходит через эпохи по общей временной шкале: плечо, локоть, запястье и пальцы рисуются отдельно, локоть вычисляется по положению кисти. Анимированы дыхание, поворот головы, моргание, хвост, пар, птицы и свет. Окружение движется отдельно от персонажей: ноги и хвосты наскальных животных, лучи с ладонями в Египте, вёсла и парус, рукописные орнаменты, гребень волны и пена, рыба на свитке, складки штор, маки, звёздные завихрения, ирисы, лилии, бликующая хромированная сфера, листья комнатных растений, облака и лампа. Геометрия движущихся деталей пересчитывается для каждого кадра; фоновые рисунки не деформируются как изображения. В финале тело кота непрерывно меняет форму от приседа к полёту и приземлению, четыре лапы двигаются отдельно. Человек замечает кота, отклоняется и поднимает руки; чашка вращается по траектории падения, появляются капли, лужица и осколки. Экспорт H.264 использует CRF 16 для сохранения мелких деталей.
+On macOS, browser checks use installed Chrome. Elsewhere, install Chromium once with `npx playwright install chromium`.
 
-Переходы между эпохами длятся 0,12–0,48 с в зависимости от длины сцены. Ускорение и замедление плавные; процедурные маски имеют мягкие границы, а годы постепенно меняются между эпохами. Короткие эпохи соединяются плавным смешиванием. В каждый момент обе сцены продолжают анимироваться. Финальный растр передаётся в видимый Canvas после завершения отрисовки. При экспорте установленным Chrome на macOS скрипт `scripts/render-chrome.sh` отключает GPU-растеризацию: она могла создавать повторяющиеся фрагменты в отдельных кадрах. Длительности и формы задаются в `src/timeline.json`, композиция и маски — в `src/art/transitions.ts`. Звуковой переход синхронизирован с визуальным и имеет более плавную огибающую.
+The browser job also builds and checks the production bundle at `/cat-through-time/`, including fonts, audio, metadata assets, keyboard focus, and download availability before or after export.
 
-Временная шкала общая для рисунка и звука. При изменении действий в `src/timeline.json` пересоберите фильм командой `npm run render`.
+The browser verifier covers 16 distinct styles, deterministic frame order, 90 transition frames, monotonic soft masks, animated dates, independent movement in ten scenery regions, local fonts, English interface text, arm geometry, continuous cat motion, replay, keyboard navigation, responsive layouts, reduced motion, metadata, and browser errors.
 
-Интерфейс, названия эпох и основные надписи фильма переведены на английский. Для разных эпох используются Patrick Hand SC, IM Fell English, Cormorant Garamond, Kalam, Bangers, Press Start 2P и Outfit. Это подобранные по референсу аналоги: точные названия шрифтов исходника неизвестны. WOFF2 и лицензии находятся в `public/fonts/`; сеть для загрузки шрифтов не требуется. Декоративные японские, греческие, латинские и французские надписи сохранены в соответствующих сценах.
-
-## Проверки
+For a shorter rendering probe of the Renaissance, Ukiyo-e, Impressionism, and Post-Impressionism transitions:
 
 ```sh
-npm run build
-npm run check
+node scripts/render.mjs --transition-probe
 ```
 
-Проверка запускает отдельный сервер, проверяет детерминированность кадров, различие всех 16 эпох, движение в каждой исторической сцене, движение 10 областей окружения отдельно от персонажей, загрузку локальных шрифтов и английский интерфейс, 90 кадров переходов, начальную и конечную прозрачность мягких масок, отсутствие обратного движения маски и корректный конечный год, сохранение длины сегментов руки, плавность траектории кота при взлёте и посадке, воспроизведение, выбор эпох, размеры 375/768/1440 px, настройку уменьшения движения, отсутствие запросов иллюстраций и ошибок браузера, параметры готового MP4. Снимки интерфейса сохраняются в `out/checks/`.
+The probe is saved to `out/checks/transitions/probe.mp4`. Run `python3 scripts/check-export.py` to check an existing finished film independently.
 
-Короткий экспорт переходов Возрождения, японской гравюры, импрессионизма и постимпрессионизма: `node scripts/render.mjs --transition-probe`. Он сохраняется в `out/checks/transitions/probe.mp4`.
+## Change the animation
 
-Экспорт и `npm run check` также декодируют готовый фильм и проверяют все кадры на большие одиночные вспышки. Для отдельной проверки: `python3 scripts/check-export.py`.
+| File                                                            | Purpose                                                        |
+| --------------------------------------------------------------- | -------------------------------------------------------------- |
+| `src/timeline.json`                                             | Shared era timing, captions, transitions, and cat/cup events   |
+| `src/art/render.ts`                                             | Frame composition, media treatment, reflections, and labels    |
+| `src/art/transitions.ts`                                        | Soft procedural masks, easing, and interpolated dates          |
+| `src/art/materials.ts`                                          | Paper, stone, cloth, crackle, ornaments, and painted textures  |
+| `src/art/figures.ts`, `portraits.ts`, `styledCats.ts`           | Historical poses, costumes, faces, and cats                    |
+| `src/art/classicRoom.ts`, `impastoRoom.ts`, `decoratedRooms.ts` | Renaissance, painted, Gothic, Ukiyo-e, and Art Nouveau rooms   |
+| `src/art/painted.ts`, `retro3d.ts`, `modern.ts`                 | Painted figures, early CGI lighting, and the final action      |
+| `src/art/environment.ts`, `scenery.ts`                          | Independent room details, light, waves, plants, and atmosphere |
+| `src/art/lettering.ts`, `src/typography.ts`                     | Era-specific typefaces and local font loading                  |
+| `scripts/soundtrack.py`                                         | Music and synchronized sound effects                           |
 
-Для проверки до экспорта: `node scripts/verify.mjs --preview-only`. Проверки используют Google Chrome на macOS; для других платформ установите Chromium командой `npx playwright install chromium`.
+Each frame is determined by its frame number. Textures use seeded randomness, static details are cached, and moving shapes are redrawn for every frame. Both scenes keep moving during a transition. The exporter disables GPU rasterization in installed macOS Chrome to avoid duplicated canvas tiles in screenshots.
 
-## Материалы
+Keep image-independent geometry, one shared timeline, and deterministic rendering when adding a style. Re-export after changing the timeline so picture and sound remain synchronized.
 
-Рисунок выполнен в Canvas, музыка и эффекты синтезированы локально. Кадры и аудио из исходного референса в фильм не включены. Визуальная идея и последовательность эпох основаны на предоставленном ролике [Tak](https://x.com/cherry_mx_reds/status/2106095190285144331); это самостоятельная реализация, исходный код автора не найден. Для интерфейса и рендера используются React и Remotion.
+## Credits and license
+
+Project code and documentation: **MIT © 2026 hostlife22**. See [LICENSE](LICENSE). Fonts and dependencies retain their own licenses; Remotion has separate licensing terms. See [Third-party licenses](docs/THIRD_PARTY_LICENSES.md).
+
+The visual idea and sequence of eras were inspired by the user-provided [Tak reference](https://x.com/cherry_mx_reds/status/2106095190285144331). This is an independent implementation; the author's source code was not used. Reference video/audio and generated illustrations are not included. All rooms, characters, textures, and animation are drawn in Canvas; music and effects are synthesized locally.
